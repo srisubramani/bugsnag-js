@@ -24,7 +24,7 @@ public class CrashyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void generatePromiseRejection(Promise promise) {
-        promise.reject(new Exception("Oops - rejected promise from Java!"));
+        promise.reject(Foo.generateException());
     }
 
     @ReactMethod

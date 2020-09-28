@@ -161,6 +161,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				A2848806D72B7F5F5EFB940E /* [CP] Copy Pods Resources */,
+				E79CAE0F2522429E00C413D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -269,6 +270,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rn063example/Pods-rn063example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E79CAE0F2522429E00C413D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "fork do\n  Process.setsid\n  STDIN.reopen(\"/dev/null\")\n  STDOUT.reopen(\"/dev/null\", \"a\")\n  STDERR.reopen(\"/dev/null\", \"a\")\n\n  require 'shellwords'\n\n  Dir[\"#{ENV[\"DWARF_DSYM_FOLDER_PATH\"]}/*/Contents/Resources/DWARF/*\"].each do |dsym|\n    system(\"curl --http1.1 -F apiKey=5d1ec8bd39a74caa1267142706a7fb20 -F dsym=@#{Shellwords.escape(dsym)} -F projectRoot=#{Shellwords.escape(ENV[\"PROJECT_DIR\"])} https://upload.bugsnag.com/\")\n  end\nend\n";
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,6 +353,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = rn063example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
