@@ -31,13 +31,16 @@ describe('plugin: react navigation', () => {
 
     expect(MockedNavigationContainerRender).toBeCalledTimes(1)
 
-    MockedNavigationContainerRender.mock.calls[0][0].onReady()
+    const navigationProps = MockedNavigationContainerRender.mock.calls[0][0]
+    const navigationRef = MockedNavigationContainerRender.mock.calls[0][1]
+
+    navigationProps.onReady()
     expect(onReady).toBeCalledTimes(1)
 
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     expect(onStateChange).toBeCalledTimes(1)
 
-    expect(MockedNavigationContainerRender.mock.calls[0][1]).toBe(ref)
+    expect(navigationRef).toBe(ref)
 
     done()
   })
@@ -68,14 +71,16 @@ describe('plugin: react navigation', () => {
 
     expect(c.getContext()).toBeUndefined()
 
-    MockedNavigationContainerRender.mock.calls[0][0].onReady()
+    const navigationProps = MockedNavigationContainerRender.mock.calls[0][0]
+
+    navigationProps.onReady()
     expect(c.getContext()).toBe('home')
 
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     expect(c.getContext()).toBe('home')
 
     currentRouteName = 'details'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     expect(c.getContext()).toBe('details')
   })
 
@@ -105,27 +110,32 @@ describe('plugin: react navigation', () => {
 
     expect(c._breadcrumbs.length).toBe(0)
 
-    MockedNavigationContainerRender.mock.calls[0][0].onReady()
+    const navigationProps = MockedNavigationContainerRender.mock.calls[0][0]
+
+    navigationProps.onReady()
     currentRouteName = 'details'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     currentRouteName = 'settings'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     currentRouteName = 'details'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
 
-    expect(c._breadcrumbs.length).toBe(3)
+    expect(c._breadcrumbs.length).toBe(4)
 
-    expect(c._breadcrumbs[0].message).toBe('React Navigation onStateChange')
-    expect(c._breadcrumbs[0].metadata.from).toBe('home')
-    expect(c._breadcrumbs[0].metadata.to).toBe('details')
+    expect(c._breadcrumbs[0].message).toBe('React Navigation onReady')
+    expect(c._breadcrumbs[0].metadata.to).toBe('home')
 
     expect(c._breadcrumbs[1].message).toBe('React Navigation onStateChange')
-    expect(c._breadcrumbs[1].metadata.from).toBe('details')
-    expect(c._breadcrumbs[1].metadata.to).toBe('settings')
+    expect(c._breadcrumbs[1].metadata.from).toBe('home')
+    expect(c._breadcrumbs[1].metadata.to).toBe('details')
 
     expect(c._breadcrumbs[2].message).toBe('React Navigation onStateChange')
-    expect(c._breadcrumbs[2].metadata.from).toBe('settings')
-    expect(c._breadcrumbs[2].metadata.to).toBe('details')
+    expect(c._breadcrumbs[2].metadata.from).toBe('details')
+    expect(c._breadcrumbs[2].metadata.to).toBe('settings')
+
+    expect(c._breadcrumbs[3].message).toBe('React Navigation onStateChange')
+    expect(c._breadcrumbs[3].metadata.from).toBe('settings')
+    expect(c._breadcrumbs[3].metadata.to).toBe('details')
   })
 
   it('should leave no breacrumbs when navigation breadcrumbs are disabled', () => {
@@ -154,13 +164,15 @@ describe('plugin: react navigation', () => {
 
     expect(c._breadcrumbs.length).toBe(0)
 
-    MockedNavigationContainerRender.mock.calls[0][0].onReady()
+    const navigationProps = MockedNavigationContainerRender.mock.calls[0][0]
+
+    navigationProps.onReady()
     currentRouteName = 'details'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     currentRouteName = 'settings'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
     currentRouteName = 'details'
-    MockedNavigationContainerRender.mock.calls[0][0].onStateChange()
+    navigationProps.onStateChange()
 
     expect(c._breadcrumbs.length).toBe(0)
   })
