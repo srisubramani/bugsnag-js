@@ -1,4 +1,13 @@
-FROM openjdk:8-jdk-stretch
+FROM node:lts-alpine as node
+
+WORKDIR /app
+
+COPY scripts/react-native-helper.js ./scripts/
+COPY test/react-native/features/fixtures test/react-native/features/fixtures
+
+RUN node -e 'require("./scripts/react-native-helper.js").gather("test/react-native/features/fixtures", "fixtures")'
+
+FROM openjdk:8-jdk-stretch as builder
 
 # OS setup
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
@@ -35,11 +44,12 @@ RUN echo "always-auth=true" >> ~/.npmrc
 # First we copy the skeleton files gathered in advance of the Docker build using react-native-helper.gather().
 COPY lerna.json .
 COPY scripts/common.js scripts/react-native-helper.js scripts/
-COPY docker-temp/fixtures /app/features/fixtures/
+COPY --from node fixtures /app/features/fixtures/
 RUN run-func scripts/react-native-helper.js prepare /app/features/fixtures
 
 # Now copy in all the files needed to build
 COPY .git .git
 
 # Do a full build by running the container
+COPY --from node
 CMD run-func scripts/react-native-helper.js buildAndroid "/app/test/react-native/features/fixtures" "/app/features/fixtures"

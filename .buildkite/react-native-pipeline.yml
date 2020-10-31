@@ -12,8 +12,6 @@ steps:
     key: "android-builder-image"
     timeout_in_minutes: 30
     plugins:
-      - improbable-eng/metahook:
-          post-checkout: scripts/gather-react-native-files.sh
       - docker-compose#v3.3.0:
           build: react-native-android-builder
           image-repository: 855461928731.dkr.ecr.us-west-1.amazonaws.com/js
