@@ -54,8 +54,8 @@
     "@bugsnag/plugin-react-native-global-error-handler": "^7.4.0",
     "@bugsnag/plugin-react-native-orientation-breadcrumbs": "^7.4.0",
     "@bugsnag/plugin-react-native-unhandled-rejection": "^7.3.5",
+    "@bugsnag/source-maps": "^1.0.0-alpha.2",
     "bugsnag-build-reporter": "^1.0.1",
-    "bugsnag-sourcemaps": "^1.1.0",
     "expo-constants": "~9.2"
   },
   "peerDependencies": {
